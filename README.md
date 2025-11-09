@@ -180,32 +180,46 @@ mvn test
 - **IntelliJ IDEA**: Right-click test class → Run Tests
 - **VS Code**: Click "Run Test" above test methods
 
-## What Was Fixed
+## Common Use Cases
 
-This version includes critical bug fixes:
-
-### Before (Broken)
-
-```java
-// Arguments: [e.department, e]
-// Generated: "DISTINCT ON(e) e.department" ❌ WRONG
+### Latest Record Per Group
+```sql
+SELECT DISTINCT ON (user_id) *
+FROM login_logs
+ORDER BY user_id, login_time DESC;
 ```
 
-### After (Fixed)
-
-```java
-// Arguments: [e.department, e]
-// Generated: "DISTINCT ON(e.department) e" ✅ CORRECT
+### Top Item Per Category
+```sql
+SELECT DISTINCT ON (category_id) *
+FROM products
+ORDER BY category_id, rating DESC, sales DESC;
 ```
 
-See [CHANGES.md](CHANGES.md) for full details.
+### Deduplication
+```sql
+SELECT DISTINCT ON (email) *
+FROM user_registrations
+ORDER BY email, created_at DESC;
+```
 
-## Documentation
+## Contributing
 
-- [USAGE_GUIDE.md](USAGE_GUIDE.md) - Comprehensive usage guide with examples
-- [CHANGES.md](CHANGES.md) - List of changes and fixes
-- [BUG_ANALYSIS.md](BUG_ANALYSIS.md) - Technical analysis of bugs fixed
-- [TEST_RESULTS_SUMMARY.md](TEST_RESULTS_SUMMARY.md) - Test suite documentation
+Contributions are welcome!
+
+### Running Tests Locally
+
+```bash
+# Requires Docker for integration tests
+mvn test
+```
+
+### Reporting Issues
+
+Please open an issue on GitHub with:
+- Description of the problem
+- Code example to reproduce
+- Expected vs actual behavior
 
 ## Requirements
 
@@ -229,23 +243,13 @@ pg-distinct-jpa/
 │       ├── DistinctOnIntegrationTest.java   # Integration tests
 │       └── DistinctOnFunctionTest.java      # Comprehensive tests
 ├── pom.xml                                   # Maven configuration
-└── *.md                                      # Documentation files
+└── README.md                                 # This file
 ```
-
-## Contributing
-
-Contributions are welcome! Please feel free to submit issues or pull requests.
 
 ## License
 
-[Add your license here]
+MIT License - see [LICENSE](LICENSE) file for details.
 
 ## Author
 
-Mehrdad Falahati
-
-## Acknowledgments
-
-- Built with [Hibernate ORM](https://hibernate.org/)
-- Tests use [Testcontainers](https://www.testcontainers.org/)
-- Targets [PostgreSQL](https://www.postgresql.org/)
+Mehrdad Falahati - [@mehrdadfalahati](https://github.com/mehrdadfalahati)
